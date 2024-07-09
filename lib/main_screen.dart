@@ -13,9 +13,7 @@ class MainScreen extends StatelessWidget {
             widthFactor: 0.5,
             child: Column(
               children: [
-                Expanded(
-                  child: Container(),
-                ),
+                const Spacer(),
                 Column(
                   children: [
                     const AspectRatio(
