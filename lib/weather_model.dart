@@ -15,10 +15,9 @@ class WeatherModel {
 
   WeatherType fetchCondition() {
     final response = _client.fetchSimpleWeather();
-    try {
-      return WeatherType.values.byName(response);
-    } on Exception catch (_) {
-      return WeatherType.none;
-    }
+    return WeatherType.values.firstWhere(
+      (element) => element.name == response,
+      orElse: () => WeatherType.none,
+    );
   }
 }
