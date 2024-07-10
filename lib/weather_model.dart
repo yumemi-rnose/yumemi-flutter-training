@@ -1,7 +1,7 @@
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 enum WeatherType {
-  non,
+  none,
   sunny,
   cloudy,
   rainy,
@@ -17,8 +17,8 @@ class WeatherModel {
     final response = _client.fetchSimpleWeather();
     try {
       return WeatherType.values.byName(response);
-      return WeatherType.non;
     } on Exception catch (_) {
+      return WeatherType.none;
     }
   }
 }

@@ -14,7 +14,7 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   final WeatherModel _model = WeatherModel(YumemiWeather());
-  WeatherType _weatherType = WeatherType.non;
+  WeatherType _weatherType = WeatherType.none;
 
   void updateWeatherType() {
     setState(() {
@@ -118,12 +118,11 @@ class _WeatherImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageWidget = switch (weatherType) {
-      WeatherType.non => const Placeholder(),
+    return switch (weatherType) {
+      WeatherType.none => const Placeholder(),
       WeatherType.sunny => SvgPicture.asset(Assets.icons.sunny),
       WeatherType.cloudy => SvgPicture.asset(Assets.icons.cloudy),
       WeatherType.rainy => SvgPicture.asset(Assets.icons.rainy),
     };
-    return imageWidget;
   }
 }
