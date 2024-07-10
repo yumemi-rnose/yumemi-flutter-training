@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
@@ -104,9 +105,17 @@ class _WeatherScreenState extends State<WeatherScreen> {
 }
 
 class _WeatherImage extends StatelessWidget {
-  const _WeatherImage({required this.weatherType, super.key});
-
+  const _WeatherImage({required this.weatherType});
   final WeatherType weatherType;
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+      DiagnosticsProperty<WeatherType>('weatherType', weatherType),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final imageWidget = switch (weatherType) {

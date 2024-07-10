@@ -17,9 +17,8 @@ class WeatherModel {
     final response = _client.fetchSimpleWeather();
     try {
       return WeatherType.values.byName(response);
-    } on Exception catch (e) {
-      print('$e');
       return WeatherType.non;
+    } on Exception catch (_) {
     }
   }
 }
