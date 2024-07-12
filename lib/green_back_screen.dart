@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_training/weather_screen.dart';
 
 class GreenBackScreen extends StatefulWidget {
   const GreenBackScreen({super.key});
@@ -8,6 +10,32 @@ class GreenBackScreen extends StatefulWidget {
 }
 
 class _GreenBackScreenState extends State<GreenBackScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    unawaited(navigate());
+  }
+
+  Future<void> navigate() async {
+    await WidgetsBinding.instance.endOfFrame.then((_) {
+      if (mounted) {
+        // 0.5秒後遅延実行
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute<WeatherScreen>(
+                builder: (context) => const WeatherScreen(),
+              ),
+            ),
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
