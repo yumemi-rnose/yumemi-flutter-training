@@ -6,5 +6,6 @@
   "files.watcherExclude": {
     "**/.fvm": true
   },
+  "editor.formatOnSave": true,
   "cSpell.ignoreWords": ["yumemi"]
 }
