@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_training/gen/assets.gen.dart';
+import 'package:flutter_training/weather_model.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key,});
+class WeatherScreen extends StatefulWidget {
+  const WeatherScreen({super.key});
+
+  @override
+  State<WeatherScreen> createState() => _WeatherScreenState();
+}
+
+class _WeatherScreenState extends State<WeatherScreen> {
+  final WeatherModel _model = WeatherModel(YumemiWeather());
+  WeatherType _weatherType = WeatherType.none;
+
+  void updateWeatherType() {
+    setState(() {
+      _weatherType = _model.fetchCondition();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     final textStyle = Theme.of(context).textTheme.labelLarge;
+
     return Scaffold(
         body: Center(
           child: FractionallySizedBox(
@@ -16,9 +34,9 @@ class MainScreen extends StatelessWidget {
                 const Spacer(),
                 Column(
                   children: [
-                    const AspectRatio(
+                    AspectRatio(
                       aspectRatio: 1,
-                      child: Placeholder(),
+                      child: _WeatherImage(weatherType: _weatherType),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +83,7 @@ class MainScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: TextButton(
-                              onPressed: () { },
+                              onPressed: () => { updateWeatherType() },
                               child: Text(
                                 'Reload',
                                 style: textStyle?.copyWith(color: Colors.blue),
@@ -82,5 +100,22 @@ class MainScreen extends StatelessWidget {
           ),
         ),
     );
+  }
+}
+
+class _WeatherImage extends StatelessWidget {
+  const _WeatherImage({
+    required WeatherType weatherType,
+  }) : _weatherType = weatherType;
+  final WeatherType _weatherType;
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (_weatherType) {
+      WeatherType.none => const Placeholder(),
+      WeatherType.sunny => SvgPicture.asset(Assets.icons.sunny),
+      WeatherType.cloudy => SvgPicture.asset(Assets.icons.cloudy),
+      WeatherType.rainy => SvgPicture.asset(Assets.icons.rainy),
+    };
   }
 }
