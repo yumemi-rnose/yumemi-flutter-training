@@ -10,7 +10,6 @@ class GreenBackScreen extends StatefulWidget {
 }
 
 class _GreenBackScreenState extends State<GreenBackScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -19,27 +18,30 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
 
   Future<void> navigate() async {
     await WidgetsBinding.instance.endOfFrame.then((_) {
-      if (mounted) {
-        // 0.5秒後遅延実行
-        Future.delayed(
-          const Duration(milliseconds: 500),
-          () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute<WeatherScreen>(
-                builder: (context) => const WeatherScreen(),
+      // 0.5秒後遅延実行
+      Future.delayed(
+        const Duration(milliseconds: 500),
+        () => {
+          if (mounted)
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute<WeatherScreen>(
+                  builder: (context) => const WeatherScreen(),
+                ),
               ),
-            ),
-          },
-        );
-      }
+            }
+        },
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(color: Colors.green,),
+      body: Container(
+        color: Colors.green,
+      ),
     );
   }
 }
