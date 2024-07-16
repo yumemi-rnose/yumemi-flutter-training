@@ -29,8 +29,10 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
                 MaterialPageRoute<WeatherScreen>(
                   builder: (context) => const WeatherScreen(),
                 ),
-              ),
-            }
+              ).then((value) {
+                navigate();
+              }),
+            },
         },
       );
     });
