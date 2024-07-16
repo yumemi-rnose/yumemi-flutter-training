@@ -24,18 +24,21 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
         () => {
           if (mounted)
             {
-              Navigator.push(
-                context,
-                MaterialPageRoute<WeatherScreen>(
-                  builder: (context) => const WeatherScreen(),
-                ),
-              ).then((value) {
-                navigate();
-              }),
+              _navigate(),
             },
         },
       );
     });
+  }
+
+  Future<void> _navigate() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute<WeatherScreen>(
+        builder: (context) => const WeatherScreen(),
+      ),
+    );
+    await navigate();
   }
 
   @override
