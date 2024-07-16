@@ -17,28 +17,17 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
   }
 
   Future<void> navigate() async {
-    await WidgetsBinding.instance.endOfFrame.then((_) {
-      // 0.5秒後遅延実行
-      Future.delayed(
-        const Duration(milliseconds: 500),
-        () => {
-          if (mounted)
-            {
-              _navigate(),
-            },
-        },
+    await WidgetsBinding.instance.endOfFrame;
+    await Future.delayed(const Duration(milliseconds: 500), () {});
+    if (mounted) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute<WeatherScreen>(
+          builder: (context) => const WeatherScreen(),
+        ),
       );
-    });
-  }
-
-  Future<void> _navigate() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute<WeatherScreen>(
-        builder: (context) => const WeatherScreen(),
-      ),
-    );
-    await navigate();
+      await navigate();
+    }
   }
 
   @override
