@@ -13,11 +13,15 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
   @override
   void initState() {
     super.initState();
-    unawaited(navigate());
+    unawaited(_navigateAfterLayout());
   }
 
-  Future<void> navigate() async {
+  Future<void> _navigateAfterLayout() async {
     await WidgetsBinding.instance.endOfFrame;
+    await _navigate();
+  }
+
+  Future<void> _navigate() async {
     await Future.delayed(const Duration(milliseconds: 500), () {});
     if (mounted) {
       await Navigator.push(
@@ -26,7 +30,7 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
           builder: (context) => const WeatherScreen(),
         ),
       );
-      await navigate();
+      await _navigate();
     }
   }
 
