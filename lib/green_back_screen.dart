@@ -17,8 +17,9 @@ class _GreenBackScreenState extends State<GreenBackScreen> {
   }
 
   Future<void> _navigateAfterLayout() async {
-    await WidgetsBinding.instance.endOfFrame;
-    await _navigate();
+    await WidgetsBinding.instance.endOfFrame.then((_) {
+      _navigate();
+    });
   }
 
   Future<void> _navigate() async {
