@@ -8,6 +8,10 @@ class AppAlertDialog extends StatelessWidget {
 
   final Exception _exception;
 
+  void _close(BuildContext context) {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -15,7 +19,7 @@ class AppAlertDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => _close(context),
           child: const Text('OK'),
         ),
       ],
