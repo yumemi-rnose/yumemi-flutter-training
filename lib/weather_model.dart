@@ -14,7 +14,7 @@ class WeatherModel {
   final YumemiWeather _client;
 
   WeatherType fetchCondition() {
-    final response = _client.fetchSimpleWeather();
+    final response = _client.fetchThrowsWeather('tokyo');
     return WeatherType.values.firstWhere(
       (element) => element.name == response,
       orElse: () => WeatherType.none,
