@@ -99,7 +99,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         ),
                         Expanded(
                           child: TextButton(
-                            onPressed: () => {updateWeatherType(context)},
+                            onPressed: () async {
+                              await updateWeatherType(context);
+                            },
                             child: Text(
                               'Reload',
                               style: textStyle?.copyWith(color: Colors.blue),
