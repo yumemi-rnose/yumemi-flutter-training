@@ -1,25 +1,10 @@
+import 'dart:convert';
+
+import 'package:flutter_training/app_exceptions.dart';
+import 'package:flutter_training/weather.dart';
+import 'package:flutter_training/weather_get_request.dart';
+import 'package:flutter_training/weather_get_response.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
-
-enum WeatherType {
-  none,
-  sunny,
-  cloudy,
-  rainy,
-}
-
-// YumemiWeatherError.invalidParameter
-class WeatherInvalidParameterException implements Exception {
-  final String _message = 'WeatherInvalidParameterException';
-  @override
-  String toString() => _message;
-}
-
-// YumemiWeatherError.unknown
-class WeatherUnknownException implements Exception {
-  final String _message = 'WeatherUnknownException';
-  @override
-  String toString() => _message;
-}
 
 class WeatherModel {
   // コンストラクタ
@@ -29,11 +14,13 @@ class WeatherModel {
 
   WeatherType fetchCondition() {
     try {
-      final response = _client.fetchThrowsWeather('tokyo');
-      return WeatherType.values.firstWhere(
-        (element) => element.name == response,
-        orElse: () => WeatherType.none,
+      final request =
+          jsonEncode(WeatherGetRequest('tokyo', DateTime.now()).toJson());
+      final responseJsonString = _client.fetchWeather(request);
+      final response = WeatherGetResponse.fromJson(
+        json.decode(responseJsonString) as Map<String, dynamic>,
       );
+      return response.toWeather().weatherType;
     } on YumemiWeatherError catch (e) {
       throw switch (e) {
         YumemiWeatherError.invalidParameter =>
