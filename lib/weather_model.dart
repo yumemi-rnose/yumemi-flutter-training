@@ -12,7 +12,7 @@ class WeatherModel {
 
   final YumemiWeather _client;
 
-  WeatherType fetchCondition() {
+  Weather fetchWeather() {
     try {
       final request =
           jsonEncode(WeatherGetRequest('tokyo', DateTime.now()).toJson());
@@ -20,7 +20,7 @@ class WeatherModel {
       final response = WeatherGetResponse.fromJson(
         json.decode(responseJsonString) as Map<String, dynamic>,
       );
-      return response.toWeather().weatherType;
+      return response.toWeather();
     } on YumemiWeatherError catch (e) {
       throw switch (e) {
         YumemiWeatherError.invalidParameter =>
