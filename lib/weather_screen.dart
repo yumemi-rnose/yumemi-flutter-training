@@ -21,12 +21,12 @@ class _WeatherScreenState extends State<WeatherScreen> {
       try {
         _weatherType = _model.fetchCondition();
       } on Exception catch (e) {
-        _showMyDialog(context, e);
+        _showAlertDialog(context, e);
       }
     });
   }
 
-  Future<void> _showMyDialog(BuildContext context, Exception e) {
+  Future<void> _showAlertDialog(BuildContext context, Exception e) {
     return showDialog<void>(
       context: context,
       builder: (context) {
