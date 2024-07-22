@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_training/app_alert_dialog.dart';
@@ -16,19 +18,20 @@ class _WeatherScreenState extends State<WeatherScreen> {
   final WeatherModel _model = WeatherModel(YumemiWeather());
   WeatherType _weatherType = WeatherType.none;
 
-  Future<void> updateWeatherType(BuildContext context) async {
+  void updateWeatherType(BuildContext context) {
     setState(() {
       try {
         _weatherType = _model.fetchCondition();
       } on Exception catch (e) {
-        _showAlertDialog(context, e);
+        unawaited(_showAlertDialog(context, e));
       }
     });
   }
 
-  Future<void> _showAlertDialog(BuildContext context, Exception e) {
-    return showDialog<void>(
+  Future<void> _showAlertDialog(BuildContext context, Exception e) async {
+    await showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AppAlertDialog(exception: e);
       },
@@ -99,8 +102,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         ),
                         Expanded(
                           child: TextButton(
-                            onPressed: () async {
-                              await updateWeatherType(context);
+                            onPressed: () {
+                              updateWeatherType(context);
                             },
                             child: Text(
                               'Reload',
