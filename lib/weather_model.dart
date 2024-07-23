@@ -7,6 +7,20 @@ enum WeatherType {
   rainy,
 }
 
+// YumemiWeatherError.invalidParameter
+class WeatherInvalidParameterException implements Exception {
+  final String _message = 'WeatherInvalidParameterException';
+  @override
+  String toString() => _message;
+}
+
+// YumemiWeatherError.unknown
+class WeatherUnknownException implements Exception {
+  final String _message = 'WeatherUnknownException';
+  @override
+  String toString() => _message;
+}
+
 class WeatherModel {
   // コンストラクタ
   WeatherModel(this._client);
@@ -14,10 +28,18 @@ class WeatherModel {
   final YumemiWeather _client;
 
   WeatherType fetchCondition() {
-    final response = _client.fetchSimpleWeather();
-    return WeatherType.values.firstWhere(
-      (element) => element.name == response,
-      orElse: () => WeatherType.none,
-    );
+    try {
+      final response = _client.fetchThrowsWeather('tokyo');
+      return WeatherType.values.firstWhere(
+        (element) => element.name == response,
+        orElse: () => WeatherType.none,
+      );
+    } on YumemiWeatherError catch (e) {
+      throw switch (e) {
+        YumemiWeatherError.invalidParameter =>
+          WeatherInvalidParameterException(),
+        YumemiWeatherError.unknown => WeatherUnknownException(),
+      };
+    }
   }
 }
