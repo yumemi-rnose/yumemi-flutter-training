@@ -1,6 +1,10 @@
 import 'package:flutter_training/app_exceptions.dart';
 import 'package:flutter_training/weather.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'weather_get_response.g.dart';
+
+@JsonSerializable()
 class WeatherGetResponse {
   WeatherGetResponse(
     this.weatherCondition,
@@ -8,24 +12,14 @@ class WeatherGetResponse {
     this.minTemperature,
   );
 
-  factory WeatherGetResponse.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'weather_condition': final String weatherCondition,
-        'max_temperature': final int maxTemperature,
-        'min_temperature': final int minTemperature,
-      } =>
-        WeatherGetResponse(
-          weatherCondition,
-          maxTemperature,
-          minTemperature,
-        ),
-      _ => throw const FormatException('Failed to object.'),
-    };
-  }
+  factory WeatherGetResponse.fromJson(Map<String, dynamic> json) =>
+      _$WeatherGetResponseFromJson(json);
 
+  @JsonKey(name: 'weather_condition')
   final String weatherCondition;
+  @JsonKey(name: 'max_temperature')
   final int maxTemperature;
+  @JsonKey(name: 'min_temperature')
   final int minTemperature;
 
   Weather toWeather() {
