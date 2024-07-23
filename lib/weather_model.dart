@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_training/app_exceptions.dart';
 import 'package:flutter_training/weather.dart';
 import 'package:flutter_training/weather_get_request.dart';
-import 'package:flutter_training/weather_get_response.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class WeatherModel {
@@ -17,10 +16,9 @@ class WeatherModel {
       final request =
           jsonEncode(WeatherGetRequest('tokyo', DateTime.now()).toJson());
       final responseJsonString = _client.fetchWeather(request);
-      final response = WeatherGetResponse.fromJson(
+      return Weather.fromJson(
         json.decode(responseJsonString) as Map<String, dynamic>,
       );
-      return response.toWeather();
     } on YumemiWeatherError catch (e) {
       throw switch (e) {
         YumemiWeatherError.invalidParameter =>
