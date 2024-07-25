@@ -1,5 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'weather.freezed.dart';
 part 'weather.g.dart';
 
 enum WeatherType {
@@ -8,16 +9,14 @@ enum WeatherType {
   rainy,
 }
 
-@JsonSerializable()
-class Weather {
-  Weather(this.weatherType, this.maxTemperature, this.minTemperature);
-  factory Weather.fromJson(Map<String, dynamic> json) =>
-      _$WeatherFromJson(json);
+@freezed
+class Weather with _$Weather {
+  factory Weather({
+    @JsonKey(name: 'weather_condition') required WeatherType weatherType,
+    @JsonKey(name: 'max_temperature') required int maxTemperature,
+    @JsonKey(name: 'min_temperature') required int minTemperature,
+  }) = _Weather;
 
-  @JsonKey(name: 'weather_condition')
-  final WeatherType weatherType;
-  @JsonKey(name: 'max_temperature')
-  final int maxTemperature;
-  @JsonKey(name: 'min_temperature')
-  final int minTemperature;
+  factory Weather.fromJson(Map<String, Object?> json) =>
+      _$WeatherFromJson(json);
 }

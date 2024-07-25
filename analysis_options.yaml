@@ -1,1 +1,4 @@
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
 include: package:yumemi_lints/flutter/3.22/recommended.yaml

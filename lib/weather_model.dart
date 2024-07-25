@@ -14,7 +14,7 @@ class WeatherModel {
   Weather fetchWeather() {
     try {
       final request =
-          jsonEncode(WeatherGetRequest('tokyo', DateTime.now()).toJson());
+          json.encode(WeatherGetRequest(area: 'tokyo', date: DateTime.now()));
       final responseJsonString = _client.fetchWeather(request);
       return Weather.fromJson(
         json.decode(responseJsonString) as Map<String, dynamic>,
