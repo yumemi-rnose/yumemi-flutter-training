@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_training/ui/green_back_screen.dart';
+import 'package:flutter_training/ui/screen/green_back/green_back_screen.dart';
 
 void main() {
   runApp(

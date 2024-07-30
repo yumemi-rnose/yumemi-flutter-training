@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_training/ui/weather_screen.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen.dart';
 
 mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
   @override

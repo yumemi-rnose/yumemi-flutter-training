@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
 import 'package:flutter_training/ui/component/app_alert_dialog.dart';
-import 'package:flutter_training/ui/weather_screen_state.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
 
 class WeatherScreen extends ConsumerWidget {
   const WeatherScreen({super.key});
