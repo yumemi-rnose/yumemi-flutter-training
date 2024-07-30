@@ -4,14 +4,7 @@ import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/app_exceptions.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/repository/weather_get_request.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
-
-part 'weather_repository.g.dart';
-
-@riverpod
-FetchWeatherMixin fetchWeatherMixin(FetchWeatherMixinRef ref) =>
-    WeatherRepository();
 
 class WeatherRepository with FetchWeatherMixin {
   final YumemiWeather _client = YumemiWeather();
