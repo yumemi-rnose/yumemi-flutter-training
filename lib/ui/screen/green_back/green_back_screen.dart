@@ -28,6 +28,15 @@ class GreenBackScreen extends StatefulWidget {
 class _GreenBackScreenState extends State<GreenBackScreen>
     with AfterLayoutMixin {
   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.green,
+      ),
+    );
+  }
+
+  @override
   Future<void> completion() async {
     await _navigate();
   }
@@ -43,14 +52,5 @@ class _GreenBackScreenState extends State<GreenBackScreen>
       );
       await _navigate();
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.green,
-      ),
-    );
   }
 }
