@@ -24,7 +24,7 @@ class WeatherScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.labelLarge;
-    final notifier = ref.read(weatherScreenStateProvider.notifier);
+    final notifier = ref.watch(weatherScreenStateProvider.notifier);
     final state = ref.watch(weatherScreenStateProvider);
     return Scaffold(
       body: Center(
