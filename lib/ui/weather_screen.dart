@@ -1,34 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_training/app_alert_dialog.dart';
+import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
-import 'package:flutter_training/weather.dart';
-import 'package:flutter_training/weather_model.dart';
-import 'package:yumemi_weather/yumemi_weather.dart';
+import 'package:flutter_training/ui/component/app_alert_dialog.dart';
+import 'package:flutter_training/ui/weather_screen_state.dart';
 
-class WeatherScreen extends StatefulWidget {
+class WeatherScreen extends ConsumerWidget {
   const WeatherScreen({super.key});
-
-  @override
-  State<WeatherScreen> createState() => _WeatherScreenState();
-}
-
-class _WeatherScreenState extends State<WeatherScreen> {
-  final WeatherModel _model = WeatherModel(YumemiWeather());
-  Weather? _weather;
-
-  void fetchWeather(BuildContext context) {
-    try {
-      final weather = _model.fetchWeather();
-      setState(() {
-        _weather = weather;
-      });
-    } on Exception catch (e) {
-      unawaited(_showAlertDialog(context, e));
-    }
-  }
 
   Future<void> _showAlertDialog(BuildContext context, Exception e) async {
     await showDialog<void>(
@@ -41,9 +22,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textStyle = Theme.of(context).textTheme.labelLarge;
-
+    final notifier = ref.read(weatherScreenStateProvider.notifier);
+    final state = ref.watch(weatherScreenStateProvider);
     return Scaffold(
       body: Center(
         child: FractionallySizedBox(
@@ -55,7 +37,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 children: [
                   AspectRatio(
                     aspectRatio: 1,
-                    child: _WeatherImage(weatherType: _weather?.weatherType),
+                    child: _WeatherImage(weatherType: state?.weatherType),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +46,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           child: Text(
-                            '${_weather?.minTemperature.toString() ?? '**'} ℃',
+                            '${state?.minTemperature.toString() ?? '**'} ℃',
                             style: textStyle?.copyWith(color: Colors.blue),
                             textAlign: TextAlign.center,
                           ),
@@ -74,7 +56,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           child: Text(
-                            '${_weather?.maxTemperature.toString() ?? '**'} ℃',
+                            '${state?.maxTemperature.toString() ?? '**'} ℃',
                             style: textStyle?.copyWith(color: Colors.red),
                             textAlign: TextAlign.center,
                           ),
@@ -105,7 +87,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         Expanded(
                           child: TextButton(
                             onPressed: () {
-                              fetchWeather(context);
+                              try {
+                                notifier.fetch();
+                              } on Exception catch (e) {
+                                unawaited(_showAlertDialog(context, e));
+                              }
                             },
                             child: Text(
                               'Reload',

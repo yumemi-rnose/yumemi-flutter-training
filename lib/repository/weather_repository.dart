@@ -1,17 +1,23 @@
 import 'dart:convert';
 
-import 'package:flutter_training/app_exceptions.dart';
-import 'package:flutter_training/weather.dart';
-import 'package:flutter_training/weather_get_request.dart';
+import 'package:flutter_training/application/weather_service.dart';
+import 'package:flutter_training/domain/app_exceptions.dart';
+import 'package:flutter_training/domain/weather.dart';
+import 'package:flutter_training/repository/weather_get_request.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-class WeatherModel {
-  // コンストラクタ
-  WeatherModel(this._client);
+part 'weather_repository.g.dart';
 
-  final YumemiWeather _client;
+@riverpod
+FetchWeatherMixin fetchWeatherMixin(FetchWeatherMixinRef ref) =>
+    WeatherRepository();
 
-  Weather fetchWeather() {
+class WeatherRepository with FetchWeatherMixin {
+  final YumemiWeather _client = YumemiWeather();
+
+  @override
+  Weather execute() {
     try {
       final request =
           json.encode(WeatherGetRequest(area: 'tokyo', date: DateTime.now()));
