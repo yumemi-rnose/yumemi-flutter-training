@@ -176,19 +176,21 @@ class _TepmeratureLabel extends StatelessWidget {
 }
 
 class _ControlButton extends StatelessWidget {
-  const _ControlButton(String text, Function onPressed)
+  const _ControlButton(String text, VoidCallback? onPressed)
       : _text = text,
         _onPressed = onPressed;
 
   final String _text;
-  final Function _onPressed;
+  final VoidCallback? _onPressed;
 
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.labelLarge;
     return Expanded(
       child: TextButton(
-        onPressed: () => _onPressed,
+        onPressed: () {
+          _onPressed?.call();
+        },
         child: Text(
           _text,
           style: textStyle?.copyWith(color: Colors.blue),
