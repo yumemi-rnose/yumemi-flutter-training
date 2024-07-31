@@ -54,8 +54,6 @@ class _ControlPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.watch(weatherScreenStateProvider.notifier);
-
     return Expanded(
       child: Align(
         alignment: Alignment.topCenter,
@@ -73,7 +71,7 @@ class _ControlPanel extends ConsumerWidget {
                 'Reload',
                 () {
                   try {
-                    notifier.fetch();
+                    ref.read(weatherScreenStateProvider.notifier).fetch();
                   } on Exception catch (e) {
                     unawaited(_showAlertDialog(context, e));
                   }
