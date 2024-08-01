@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_training/weather_screen.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen.dart';
 
 mixin AfterLayoutMixin<T extends StatefulWidget> on State<T> {
   @override
@@ -28,6 +28,15 @@ class GreenBackScreen extends StatefulWidget {
 class _GreenBackScreenState extends State<GreenBackScreen>
     with AfterLayoutMixin {
   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.green,
+      ),
+    );
+  }
+
+  @override
   Future<void> completion() async {
     await _navigate();
   }
@@ -43,14 +52,5 @@ class _GreenBackScreenState extends State<GreenBackScreen>
       );
       await _navigate();
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.green,
-      ),
-    );
   }
 }

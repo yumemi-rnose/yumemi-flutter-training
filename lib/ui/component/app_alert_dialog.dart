@@ -8,10 +8,6 @@ class AppAlertDialog extends StatelessWidget {
 
   final Exception _exception;
 
-  void _close(BuildContext context) {
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -24,5 +20,9 @@ class AppAlertDialog extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _close(BuildContext context) {
+    Navigator.pop(context);
   }
 }
