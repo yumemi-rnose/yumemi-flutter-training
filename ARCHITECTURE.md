@@ -1,3 +1,6 @@
+# ARCHITECTURE
+
+```mermaid
 flowchart TB
   subgraph Arrows
     direction LR
@@ -26,3 +29,4 @@ flowchart TB
   weatherScreenStateProvider ==> _WeatherPanel;
   weatherScreenStateProvider -.->_ControlPanel;
   fetchWeatherMixinProvider ==> weatherServiceProvider;
+```
