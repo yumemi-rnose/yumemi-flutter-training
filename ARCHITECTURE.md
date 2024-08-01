@@ -1,4 +1,3 @@
-Analyzing /Users/r_nose/Developer/yumemi/flutter-training/yumemi-flutter-training ...
 flowchart TB
   subgraph Arrows
     direction LR
@@ -21,9 +20,9 @@ flowchart TB
   weatherScreenStateProvider[["weatherScreenStateProvider"]];
   weatherServiceProvider[["weatherServiceProvider"]];
   fetchWeatherMixinProvider[["fetchWeatherMixinProvider"]];
-  WeatherScreen((WeatherScreen));
+  _WeatherPanel((_WeatherPanel));
+  _ControlPanel((_ControlPanel));
 
-  weatherScreenStateProvider ==> WeatherScreen;
-  weatherScreenStateProvider ==> WeatherScreen;
+  weatherScreenStateProvider ==> _WeatherPanel;
+  weatherScreenStateProvider -.->_ControlPanel;
   fetchWeatherMixinProvider ==> weatherServiceProvider;
-
