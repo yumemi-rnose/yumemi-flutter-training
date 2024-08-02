@@ -6,14 +6,20 @@ import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/repository/weather_get_request.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-class WeatherRepository with FetchWeatherMixin {
-  final YumemiWeather _client = YumemiWeather();
+class WeatherRepositoryImpl extends WeatherRepository {
+  WeatherRepositoryImpl(this._client);
+
+  final YumemiWeather _client;
 
   @override
-  Weather execute() {
+  Weather findBy(String area, DateTime date) {
     try {
-      final request =
-          json.encode(WeatherGetRequest(area: 'tokyo', date: DateTime.now()));
+      final request = json.encode(
+        WeatherGetRequest(
+          area: area,
+          date: date,
+        ),
+      );
       final responseJsonString = _client.fetchWeather(request);
       return Weather.fromJson(
         json.decode(responseJsonString) as Map<String, dynamic>,

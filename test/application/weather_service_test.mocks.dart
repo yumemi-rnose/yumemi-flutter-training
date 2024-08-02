@@ -4,7 +4,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter_training/domain/weather.dart' as _i2;
-import 'package:flutter_training/repository/weather_repository.dart' as _i3;
+import 'package:flutter_training/repository/weather_repository_impl.dart'
+    as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -30,28 +31,42 @@ class _FakeWeather_0 extends _i1.SmartFake implements _i2.Weather {
         );
 }
 
-/// A class which mocks [WeatherRepository].
+/// A class which mocks [WeatherRepositoryImpl].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockWeatherRepository extends _i1.Mock implements _i3.WeatherRepository {
+class MockWeatherRepositoryImpl extends _i1.Mock
+    implements _i3.WeatherRepositoryImpl {
   @override
-  _i2.Weather execute() => (super.noSuchMethod(
+  _i2.Weather findBy(
+    String? area,
+    DateTime? date,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #execute,
-          [],
+          #findBy,
+          [
+            area,
+            date,
+          ],
         ),
         returnValue: _FakeWeather_0(
           this,
           Invocation.method(
-            #execute,
-            [],
+            #findBy,
+            [
+              area,
+              date,
+            ],
           ),
         ),
         returnValueForMissingStub: _FakeWeather_0(
           this,
           Invocation.method(
-            #execute,
-            [],
+            #findBy,
+            [
+              area,
+              date,
+            ],
           ),
         ),
       ) as _i2.Weather);

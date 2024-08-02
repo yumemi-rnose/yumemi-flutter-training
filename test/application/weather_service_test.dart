@@ -3,27 +3,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_training/application/providers.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/repository/providers.dart';
-import 'package:flutter_training/repository/weather_repository.dart';
+import 'package:flutter_training/repository/weather_repository_impl.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'weather_service_test.mocks.dart';
 
-@GenerateNiceMocks([MockSpec<WeatherRepository>()])
+@GenerateNiceMocks([MockSpec<WeatherRepositoryImpl>()])
 void main() {
   ProviderContainer makeProviderContainer(
-    MockWeatherRepository weatherRepository,
+    MockWeatherRepositoryImpl weatherRepository,
   ) {
     final container = ProviderContainer(
       overrides: [
-        fetchWeatherMixinProvider.overrideWithValue(weatherRepository),
+        weatherRepositoryProvider.overrideWithValue(weatherRepository),
       ],
     );
     addTearDown(container.dispose);
     return container;
   }
 
-  final mockRepository = MockWeatherRepository();
+  final mockRepository = MockWeatherRepositoryImpl();
 
   test('fetchWeather should return Weather when normal case', () {
     final weather = Weather(
@@ -31,17 +31,14 @@ void main() {
       maxTemperature: 0,
       minTemperature: -10,
     );
-
-    when(mockRepository.execute()).thenReturn(weather);
+    const area = 'tokyo';
+    when(mockRepository.findBy(area, any)).thenReturn(weather);
 
     final container = makeProviderContainer(mockRepository);
     final target = container.read(weatherServiceProvider);
 
-    expect(
-      weather,
-      target.fetchWeather(),
-    );
+    expect(weather, target.fetchWeather());
 
-    verify(mockRepository.execute()).called(1);
+    verify(mockRepository.findBy(area, any)).called(1);
   });
 }

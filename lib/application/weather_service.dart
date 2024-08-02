@@ -1,16 +1,16 @@
 import 'package:flutter_training/domain/weather.dart';
 
-mixin FetchWeatherMixin {
-  Weather execute();
+abstract class WeatherRepository {
+  Weather findBy(String area, DateTime date);
 }
 
 class WeatherService {
   // コンストラクタ
-  WeatherService(this._fetcher);
+  WeatherService(this._repository);
 
-  final FetchWeatherMixin _fetcher;
+  final WeatherRepository _repository;
 
   Weather fetchWeather() {
-    return _fetcher.execute();
+    return _repository.findBy('tokyo', DateTime.now());
   }
 }
