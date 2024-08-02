@@ -51,13 +51,13 @@ void main() {
       verify(mockService.fetchWeather()).called(1);
     });
     test('fetch Shuold state not be updated When fetch failed', () {
-      when(mockService.fetchWeather()).thenThrow(NotFoundException());
+      when(mockService.fetchWeather()).thenThrow(WeatherUnknownException());
 
       final container = makeProviderContainer(mockService);
       final target = container.read(weatherScreenStateProvider.notifier);
 
       // ignore: unnecessary_lambdas
-      expect(() => target.fetch(), throwsA(isA<NotFoundException>()));
+      expect(() => target.fetch(), throwsA(isA<WeatherUnknownException>()));
       expect(null, container.read(weatherScreenStateProvider));
     });
   });
