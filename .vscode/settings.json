@@ -7,5 +7,11 @@
     "**/.fvm": true
   },
   "editor.formatOnSave": true,
-  "cSpell.ignoreWords": ["yumemi"]
+  "cSpell.ignoreWords": [
+    "yumemi"
+  ],
+  "cSpell.words": [
+    "riverpod",
+    "unawaited"
+  ]
 }
