@@ -6,4 +6,4 @@ part 'providers.g.dart';
 
 @riverpod
 WeatherService weatherService(WeatherServiceRef ref) =>
-    WeatherService(ref.watch(fetchWeatherMixinProvider));
+    WeatherService(ref.watch(weatherRepositoryProvider));

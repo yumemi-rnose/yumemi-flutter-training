@@ -1,3 +1,6 @@
+# ARCHITECTURE
+
+```mermaid
 flowchart TB
   subgraph Arrows
     direction LR
@@ -18,11 +21,14 @@ flowchart TB
   end
 
   weatherScreenStateProvider[["weatherScreenStateProvider"]];
+  weatherRepositoryProvider[["weatherRepositoryProvider"]];
+  yumemiWeatherProvider[["yumemiWeatherProvider"]];
   weatherServiceProvider[["weatherServiceProvider"]];
-  fetchWeatherMixinProvider[["fetchWeatherMixinProvider"]];
   _WeatherPanel((_WeatherPanel));
   _ControlPanel((_ControlPanel));
 
   weatherScreenStateProvider ==> _WeatherPanel;
-  weatherScreenStateProvider -.->_ControlPanel;
-  fetchWeatherMixinProvider ==> weatherServiceProvider;
+  weatherScreenStateProvider -.-> _ControlPanel;
+  yumemiWeatherProvider ==> weatherRepositoryProvider;
+  weatherRepositoryProvider ==> weatherServiceProvider;
+```

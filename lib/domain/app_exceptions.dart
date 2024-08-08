@@ -1,9 +1,3 @@
-class NotFoundException implements Exception {
-  final String _message = 'Not Found.';
-  @override
-  String toString() => _message;
-}
-
 // YumemiWeatherError.invalidParameter
 class WeatherInvalidParameterException implements Exception {
   final String _message = 'WeatherInvalidParameterException';

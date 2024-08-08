@@ -1,4 +1,5 @@
 import 'package:flutter_training/application/providers.dart';
+import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,8 +10,9 @@ class WeatherScreenState extends _$WeatherScreenState {
   @override
   Weather? build() => null;
 
+  WeatherService get _weatherService => ref.watch(weatherServiceProvider);
+
   void fetch() {
-    final service = ref.watch(weatherServiceProvider);
-    state = service.fetchWeather();
+    state = _weatherService.fetchWeather();
   }
 }
