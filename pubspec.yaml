@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.5.1
   flutter_svg: ^2.0.10+1
+  flutter_svg_test: ^1.0.1
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
   riverpod_annotation: ^2.3.5
