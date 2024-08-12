@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_training/domain/app_exceptions.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
+import 'package:flutter_training/ui/component/app_alert_dialog.dart';
 import 'package:flutter_training/ui/screen/weather/weather_screen.dart';
 import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
 
@@ -93,6 +95,29 @@ void main() {
         addTearDown(() => resetSize(tester));
       });
     });
+    testWidgets('view should display alert dialog when fetch is exception',
+        (tester) async {
+      setUp(tester);
+
+      final state = MockExceptionThrowableWeatherScreenState();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            weatherScreenStateProvider.overrideWith(() => state),
+          ],
+          child: const MaterialApp(
+            home: ProviderScope(child: WeatherScreen()),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byKey(const Key('Reload')));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(alertDialogKey), findsOneWidget);
+      expect(find.text('WeatherUnknownException'), findsOneWidget);
+      addTearDown(() => resetSize(tester));
+    });
   });
 }
 
@@ -102,6 +127,7 @@ class MockWeatherScreenState extends WeatherScreenState {
         super();
 
   final Weather _weather;
+
   @override
   Weather? build() {
     return null;
@@ -110,5 +136,19 @@ class MockWeatherScreenState extends WeatherScreenState {
   @override
   void fetch() {
     state = _weather;
+  }
+}
+
+class MockExceptionThrowableWeatherScreenState extends WeatherScreenState {
+  MockExceptionThrowableWeatherScreenState() : super();
+
+  @override
+  Weather? build() {
+    return null;
+  }
+
+  @override
+  void fetch() {
+    throw WeatherUnknownException();
   }
 }

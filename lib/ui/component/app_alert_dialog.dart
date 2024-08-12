@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const alertDialogKey = Key('alertDialog');
+
 class AppAlertDialog extends StatelessWidget {
   const AppAlertDialog({
     required Exception exception,
@@ -11,6 +13,7 @@ class AppAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      key: alertDialogKey,
       content: Text(_exception.toString()),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       actions: <Widget>[
