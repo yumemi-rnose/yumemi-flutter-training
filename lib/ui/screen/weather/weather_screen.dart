@@ -186,6 +186,7 @@ class _ControlButton extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.labelLarge;
     return Expanded(
       child: TextButton(
+        key: Key(_text),
         onPressed: _onPressed,
         child: Text(
           _text,
