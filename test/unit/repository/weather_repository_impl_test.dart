@@ -41,7 +41,7 @@ void main() {
       );
       final result =
           '''{"weather_condition":"rainy","max_temperature":30,"min_temperature":22,"date":"$date"}''';
-      when(mockYumemiWeather.fetchWeather(jsonString)).thenReturn(result);
+      when(mockYumemiWeather.syncFetchWeather(jsonString)).thenReturn(result);
 
       final container = makeProviderContainer(mockYumemiWeather);
       final target = container.read(weatherRepositoryProvider);
@@ -52,7 +52,7 @@ void main() {
 
       expect(actual, target.findBy(area, date));
 
-      verify(mockYumemiWeather.fetchWeather(jsonString));
+      verify(mockYumemiWeather.syncFetchWeather(jsonString));
     });
     test(
       '''findBy should be thrown CheckedFromJsonException when value not in WeatherType is returned.''',
@@ -67,7 +67,7 @@ void main() {
         );
         final result =
             '''{"weather_condition":"storm","max_temperature":30,"min_temperature":22,"date":"$date"}''';
-        when(mockYumemiWeather.fetchWeather(jsonString)).thenReturn(result);
+        when(mockYumemiWeather.syncFetchWeather(jsonString)).thenReturn(result);
 
         final container = makeProviderContainer(mockYumemiWeather);
         final target = container.read(weatherRepositoryProvider);
@@ -78,7 +78,7 @@ void main() {
           throwsA(isA<CheckedFromJsonException>()),
         );
 
-        verify(mockYumemiWeather.fetchWeather(jsonString));
+        verify(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
     test(
@@ -92,7 +92,7 @@ void main() {
             date: date,
           ),
         );
-        when(mockYumemiWeather.fetchWeather(jsonString)).thenThrow(
+        when(mockYumemiWeather.syncFetchWeather(jsonString)).thenThrow(
           YumemiWeatherError.unknown,
         );
 
@@ -105,7 +105,7 @@ void main() {
           throwsA(isA<WeatherUnknownException>()),
         );
 
-        verify(mockYumemiWeather.fetchWeather(jsonString));
+        verify(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
     test(
@@ -119,7 +119,7 @@ void main() {
             date: date,
           ),
         );
-        when(mockYumemiWeather.fetchWeather(jsonString)).thenThrow(
+        when(mockYumemiWeather.syncFetchWeather(jsonString)).thenThrow(
           YumemiWeatherError.invalidParameter,
         );
 
@@ -132,7 +132,7 @@ void main() {
           throwsA(isA<WeatherInvalidParameterException>()),
         );
 
-        verify(mockYumemiWeather.fetchWeather(jsonString));
+        verify(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
   });

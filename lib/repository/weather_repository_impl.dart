@@ -20,7 +20,7 @@ class WeatherRepositoryImpl extends WeatherRepository {
           date: date,
         ),
       );
-      final responseJsonString = _client.fetchWeather(request);
+      final responseJsonString = _client.syncFetchWeather(request);
       return Weather.fromJson(
         json.decode(responseJsonString) as Map<String, dynamic>,
       );
