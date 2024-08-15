@@ -27,7 +27,7 @@ void main() {
   final mockService = MockWeatherService();
 
   group('WeatherScreenState Test', () {
-    test('fetch Shuold state is not null When normal case', () {
+    test('fetch should state is not null When normal case', () {
       final weather = Weather(
         weatherType: WeatherType.sunny,
         maxTemperature: 0,
@@ -50,7 +50,7 @@ void main() {
 
       verify(mockService.fetchWeather()).called(1);
     });
-    test('fetch Shuold state not be updated When fetch failed', () {
+    test('fetch should state not be updated When fetch failed', () {
       when(mockService.fetchWeather()).thenThrow(WeatherUnknownException());
 
       final container = makeProviderContainer(mockService);

@@ -138,11 +138,11 @@ class _TemperatureLabels extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _TepmeratureLabel(
+        _TemperatureLabel(
           text: _min?.toString() ?? '**',
           style: textStyle?.copyWith(color: Colors.blue),
         ),
-        _TepmeratureLabel(
+        _TemperatureLabel(
           text: _max?.toString() ?? '**',
           style: textStyle?.copyWith(color: Colors.red),
         ),
@@ -151,8 +151,8 @@ class _TemperatureLabels extends StatelessWidget {
   }
 }
 
-class _TepmeratureLabel extends StatelessWidget {
-  const _TepmeratureLabel({required String text, TextStyle? style})
+class _TemperatureLabel extends StatelessWidget {
+  const _TemperatureLabel({required String text, TextStyle? style})
       : _text = text,
         _style = style;
 
@@ -186,6 +186,7 @@ class _ControlButton extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.labelLarge;
     return Expanded(
       child: TextButton(
+        key: Key(_text),
         onPressed: _onPressed,
         child: Text(
           _text,
