@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
 import 'package:flutter_training/ui/component/app_alert_dialog.dart';
-import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state_notifier.dart';
 
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({super.key});
@@ -35,7 +35,7 @@ class _WeatherPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(weatherScreenStateProvider);
+    final state = ref.watch(weatherScreenStateNotifierProvider);
 
     return Column(
       children: [
@@ -71,7 +71,9 @@ class _ControlPanel extends ConsumerWidget {
                 'Reload',
                 () {
                   try {
-                    ref.read(weatherScreenStateProvider.notifier).fetch();
+                    ref
+                        .read(weatherScreenStateNotifierProvider.notifier)
+                        .fetch();
                   } on Exception catch (e) {
                     unawaited(_showAlertDialog(context, e));
                   }

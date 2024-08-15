@@ -8,7 +8,7 @@ import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
 import 'package:flutter_training/ui/component/app_alert_dialog.dart';
 import 'package:flutter_training/ui/screen/weather/weather_screen.dart';
-import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state_notifier.dart';
 
 void setUp(WidgetTester tester) {
   tester.view.devicePixelRatio = 1.0;
@@ -63,13 +63,13 @@ void main() {
       testWidgets('view should display image $key when weather type is $key',
           (tester) async {
         setUp(tester);
-        final state = MockWeatherScreenState(weather: value);
+        final state = MockWeatherScreenStateNotifier(weather: value);
 
         // ウィジェットをリフレッシュ
         await tester.pumpWidget(
           ProviderScope(
             overrides: [
-              weatherScreenStateProvider.overrideWith(() => state),
+              weatherScreenStateNotifierProvider.overrideWith(() => state),
             ],
             child: const MaterialApp(
               home: ProviderScope(child: WeatherScreen()),
@@ -99,11 +99,11 @@ void main() {
         (tester) async {
       setUp(tester);
 
-      final state = MockExceptionThrowableWeatherScreenState();
+      final state = MockExceptionThrowableWeatherScreenStateNotifier();
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            weatherScreenStateProvider.overrideWith(() => state),
+            weatherScreenStateNotifierProvider.overrideWith(() => state),
           ],
           child: const MaterialApp(
             home: ProviderScope(child: WeatherScreen()),
@@ -121,8 +121,8 @@ void main() {
   });
 }
 
-class MockWeatherScreenState extends WeatherScreenState {
-  MockWeatherScreenState({required Weather weather})
+class MockWeatherScreenStateNotifier extends WeatherScreenStateNotifier {
+  MockWeatherScreenStateNotifier({required Weather weather})
       : _weather = weather,
         super();
 
@@ -134,13 +134,14 @@ class MockWeatherScreenState extends WeatherScreenState {
   }
 
   @override
-  void fetch() {
+  Future<void> fetch() async {
     state = _weather;
   }
 }
 
-class MockExceptionThrowableWeatherScreenState extends WeatherScreenState {
-  MockExceptionThrowableWeatherScreenState() : super();
+class MockExceptionThrowableWeatherScreenStateNotifier
+    extends WeatherScreenStateNotifier {
+  MockExceptionThrowableWeatherScreenStateNotifier() : super();
 
   @override
   Weather? build() {
@@ -148,7 +149,7 @@ class MockExceptionThrowableWeatherScreenState extends WeatherScreenState {
   }
 
   @override
-  void fetch() {
+  Future<void> fetch() async {
     throw WeatherUnknownException();
   }
 }

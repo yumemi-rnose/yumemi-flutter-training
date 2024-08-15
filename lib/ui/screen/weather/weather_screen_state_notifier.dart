@@ -3,10 +3,10 @@ import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'weather_screen_state.g.dart';
+part 'weather_screen_state_notifier.g.dart';
 
 @riverpod
-class WeatherScreenState extends _$WeatherScreenState {
+class WeatherScreenStateNotifier extends _$WeatherScreenStateNotifier {
   @override
   Weather? build() => null;
 

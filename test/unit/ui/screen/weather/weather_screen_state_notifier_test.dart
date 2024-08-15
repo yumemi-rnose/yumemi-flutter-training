@@ -4,11 +4,11 @@ import 'package:flutter_training/application/providers.dart';
 import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/app_exceptions.dart';
 import 'package:flutter_training/domain/weather.dart';
-import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state_notifier.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'weather_screen_state_test.mocks.dart';
+import 'weather_screen_state_notifier_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<WeatherService>()])
 void main() {
@@ -37,11 +37,12 @@ void main() {
       when(mockService.fetchWeather()).thenReturn(weather);
 
       final container = makeProviderContainer(mockService);
-      final target = container.read(weatherScreenStateProvider.notifier);
+      final target =
+          container.read(weatherScreenStateNotifierProvider.notifier);
 
       target.fetch();
 
-      final actual = container.read(weatherScreenStateProvider);
+      final actual = container.read(weatherScreenStateNotifierProvider);
 
       expect(
         weather,
@@ -54,11 +55,12 @@ void main() {
       when(mockService.fetchWeather()).thenThrow(WeatherUnknownException());
 
       final container = makeProviderContainer(mockService);
-      final target = container.read(weatherScreenStateProvider.notifier);
+      final target =
+          container.read(weatherScreenStateNotifierProvider.notifier);
 
       // ignore: unnecessary_lambdas
       expect(() => target.fetch(), throwsA(isA<WeatherUnknownException>()));
-      expect(null, container.read(weatherScreenStateProvider));
+      expect(null, container.read(weatherScreenStateNotifierProvider));
     });
   });
 }
