@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/app_exceptions.dart';
 import 'package:flutter_training/domain/weather.dart';
@@ -12,7 +13,7 @@ class WeatherRepositoryImpl extends WeatherRepository {
   final YumemiWeather _client;
 
   @override
-  Weather findBy(String area, DateTime date) {
+  Future<Weather> findBy(String area, DateTime date) async {
     try {
       final request = json.encode(
         WeatherGetRequest(
@@ -20,7 +21,8 @@ class WeatherRepositoryImpl extends WeatherRepository {
           date: date,
         ),
       );
-      final responseJsonString = _client.syncFetchWeather(request);
+      final responseJsonString =
+          await compute(_client.syncFetchWeather, request);
       return Weather.fromJson(
         json.decode(responseJsonString) as Map<String, dynamic>,
       );

@@ -8,6 +8,7 @@ import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
 import 'package:flutter_training/ui/component/app_alert_dialog.dart';
 import 'package:flutter_training/ui/screen/weather/weather_screen.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
 import 'package:flutter_training/ui/screen/weather/weather_screen_state_notifier.dart';
 
 void setUp(WidgetTester tester) {
@@ -129,13 +130,13 @@ class MockWeatherScreenStateNotifier extends WeatherScreenStateNotifier {
   final Weather _weather;
 
   @override
-  Weather? build() {
-    return null;
+  WeatherScreenState build() {
+    return WeatherScreenState();
   }
 
   @override
   Future<void> fetch() async {
-    state = _weather;
+    state = state.copyWith(weather: _weather);
   }
 }
 
@@ -144,8 +145,8 @@ class MockExceptionThrowableWeatherScreenStateNotifier
   MockExceptionThrowableWeatherScreenStateNotifier() : super();
 
   @override
-  Weather? build() {
-    return null;
+  WeatherScreenState build() {
+    return WeatherScreenState();
   }
 
   @override

@@ -30,7 +30,7 @@ void main() {
   final mockYumemiWeather = MockYumemiWeather();
   group('WeatherRepository findBy test', () {
     test('findBy should be successfully decoded as Weather when expected json.',
-        () {
+        () async {
       const area = 'area';
       final date = DateTime.now();
       final jsonString = json.encode(
@@ -46,17 +46,18 @@ void main() {
       final container = makeProviderContainer(mockYumemiWeather);
       final target = container.read(weatherRepositoryProvider);
 
-      final actual = Weather.fromJson(
+      final expected = Weather.fromJson(
         json.decode(result) as Map<String, dynamic>,
       );
+      final actual = await target.findBy(area, date);
 
-      expect(actual, target.findBy(area, date));
+      expect(expected, actual);
 
-      verify(mockYumemiWeather.syncFetchWeather(jsonString));
+      verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
     });
     test(
       '''findBy should be thrown CheckedFromJsonException when value not in WeatherType is returned.''',
-      () {
+      () async {
         const area = 'area';
         final date = DateTime.now();
         final jsonString = json.encode(
@@ -78,12 +79,12 @@ void main() {
           throwsA(isA<CheckedFromJsonException>()),
         );
 
-        verify(mockYumemiWeather.syncFetchWeather(jsonString));
+        verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
     test(
       '''findBy should be thrown WeatherUnknownException when YumemiWeatherError.unknown is thrown''',
-      () {
+      () async {
         const area = 'area';
         final date = DateTime.now();
         final jsonString = json.encode(
@@ -105,12 +106,12 @@ void main() {
           throwsA(isA<WeatherUnknownException>()),
         );
 
-        verify(mockYumemiWeather.syncFetchWeather(jsonString));
+        verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
     test(
       '''findBy should be thrown WeatherInvalidParameterException when YumemiWeatherError.invalidParameter is thrown''',
-      () {
+      () async {
         const area = 'area';
         final date = DateTime.now();
         final jsonString = json.encode(
@@ -132,7 +133,7 @@ void main() {
           throwsA(isA<WeatherInvalidParameterException>()),
         );
 
-        verify(mockYumemiWeather.syncFetchWeather(jsonString));
+        verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
   });

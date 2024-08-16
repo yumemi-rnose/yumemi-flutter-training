@@ -3,6 +3,8 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i4;
+
 import 'package:flutter_training/domain/weather.dart' as _i2;
 import 'package:flutter_training/repository/weather_repository_impl.dart'
     as _i3;
@@ -37,7 +39,7 @@ class _FakeWeather_0 extends _i1.SmartFake implements _i2.Weather {
 class MockWeatherRepositoryImpl extends _i1.Mock
     implements _i3.WeatherRepositoryImpl {
   @override
-  _i2.Weather findBy(
+  _i4.Future<_i2.Weather> findBy(
     String? area,
     DateTime? date,
   ) =>
@@ -49,7 +51,7 @@ class MockWeatherRepositoryImpl extends _i1.Mock
             date,
           ],
         ),
-        returnValue: _FakeWeather_0(
+        returnValue: _i4.Future<_i2.Weather>.value(_FakeWeather_0(
           this,
           Invocation.method(
             #findBy,
@@ -58,8 +60,8 @@ class MockWeatherRepositoryImpl extends _i1.Mock
               date,
             ],
           ),
-        ),
-        returnValueForMissingStub: _FakeWeather_0(
+        )),
+        returnValueForMissingStub: _i4.Future<_i2.Weather>.value(_FakeWeather_0(
           this,
           Invocation.method(
             #findBy,
@@ -68,6 +70,6 @@ class MockWeatherRepositoryImpl extends _i1.Mock
               date,
             ],
           ),
-        ),
-      ) as _i2.Weather);
+        )),
+      ) as _i4.Future<_i2.Weather>);
 }
