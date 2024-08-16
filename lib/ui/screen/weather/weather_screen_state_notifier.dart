@@ -14,7 +14,12 @@ class WeatherScreenStateNotifier extends _$WeatherScreenStateNotifier {
 
   Future<void> fetch() async {
     state = state.copyWith(isLoading: true);
-    final result = await _weatherService.fetchWeather();
-    state = state.copyWith(isLoading: false, weather: result);
+    try {
+      final result = await _weatherService.fetchWeather();
+      state = state.copyWith(isLoading: false, weather: result);
+    } on Exception catch (_) {
+      state = state.copyWith(isLoading: false);
+      rethrow;
+    }
   }
 }
