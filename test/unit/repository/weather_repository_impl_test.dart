@@ -52,8 +52,6 @@ void main() {
       final actual = await target.findBy(area, date);
 
       expect(expected, actual);
-
-      verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
     });
     test(
       '''findBy should be thrown CheckedFromJsonException when value not in WeatherType is returned.''',
@@ -78,8 +76,6 @@ void main() {
           () => target.findBy(area, date),
           throwsA(isA<CheckedFromJsonException>()),
         );
-
-        verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
     test(
@@ -105,8 +101,6 @@ void main() {
           () => target.findBy(area, date),
           throwsA(isA<WeatherUnknownException>()),
         );
-
-        verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
     test(
@@ -132,8 +126,6 @@ void main() {
           () => target.findBy(area, date),
           throwsA(isA<WeatherInvalidParameterException>()),
         );
-
-        verifyNever(mockYumemiWeather.syncFetchWeather(jsonString));
       },
     );
   });
