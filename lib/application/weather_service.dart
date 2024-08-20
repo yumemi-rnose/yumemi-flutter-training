@@ -1,7 +1,7 @@
 import 'package:flutter_training/domain/weather.dart';
 
 abstract class WeatherRepository {
-  Weather findBy(String area, DateTime date);
+  Future<Weather> findBy(String area, DateTime date);
 }
 
 class WeatherService {
@@ -10,7 +10,7 @@ class WeatherService {
 
   final WeatherRepository _repository;
 
-  Weather fetchWeather() {
+  Future<Weather> fetchWeather() {
     return _repository.findBy('tokyo', DateTime.now());
   }
 }

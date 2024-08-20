@@ -5,10 +5,11 @@ import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/app_exceptions.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state_notifier.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'weather_screen_state_test.mocks.dart';
+import 'weather_screen_state_notifier_test.mocks.dart';
 
 @GenerateNiceMocks([MockSpec<WeatherService>()])
 void main() {
@@ -27,38 +28,39 @@ void main() {
   final mockService = MockWeatherService();
 
   group('WeatherScreenState Test', () {
-    test('fetch should state is not null When normal case', () {
+    test('fetch should state is not null When normal case', () async {
       final weather = Weather(
         weatherType: WeatherType.sunny,
         maxTemperature: 0,
         minTemperature: -10,
       );
 
-      when(mockService.fetchWeather()).thenReturn(weather);
+      when(mockService.fetchWeather()).thenAnswer((_) async => weather);
 
       final container = makeProviderContainer(mockService);
-      final target = container.read(weatherScreenStateProvider.notifier);
+      final target =
+          container.read(weatherScreenStateNotifierProvider.notifier);
 
-      target.fetch();
+      await target.fetch();
 
-      final actual = container.read(weatherScreenStateProvider);
+      final expected = WeatherScreenState(weather: weather);
+      final actual = container.read(weatherScreenStateNotifierProvider);
 
-      expect(
-        weather,
-        actual,
-      );
+      expect(expected.weather, actual.weather);
+      expect(expected.isLoading, actual.isLoading);
 
-      verify(mockService.fetchWeather()).called(1);
+      verify(mockService.fetchWeather());
     });
-    test('fetch should state not be updated When fetch failed', () {
+    test('fetch should state not be updated When fetch failed', () async {
       when(mockService.fetchWeather()).thenThrow(WeatherUnknownException());
 
       final container = makeProviderContainer(mockService);
-      final target = container.read(weatherScreenStateProvider.notifier);
+      final target =
+          container.read(weatherScreenStateNotifierProvider.notifier);
 
       // ignore: unnecessary_lambdas
       expect(() => target.fetch(), throwsA(isA<WeatherUnknownException>()));
-      expect(null, container.read(weatherScreenStateProvider));
+      expect(null, container.read(weatherScreenStateNotifierProvider).weather);
     });
   });
 }

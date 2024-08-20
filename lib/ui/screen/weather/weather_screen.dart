@@ -6,25 +6,33 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_training/domain/weather.dart';
 import 'package:flutter_training/gen/assets.gen.dart';
 import 'package:flutter_training/ui/component/app_alert_dialog.dart';
-import 'package:flutter_training/ui/screen/weather/weather_screen_state.dart';
+import 'package:flutter_training/ui/component/loading.dart';
+import 'package:flutter_training/ui/screen/weather/weather_screen_state_notifier.dart';
 
-class WeatherScreen extends StatelessWidget {
+class WeatherScreen extends ConsumerWidget {
   const WeatherScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.5,
-          child: Column(
-            children: [
-              Spacer(),
-              _WeatherPanel(),
-              _ControlPanel(),
-            ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(weatherScreenStateNotifierProvider);
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          const Center(
+            child: FractionallySizedBox(
+              widthFactor: 0.5,
+              child: Column(
+                children: [
+                  Spacer(),
+                  _WeatherPanel(),
+                  _ControlPanel(),
+                ],
+              ),
+            ),
           ),
-        ),
+          if (state.isLoading) const Loading(),
+        ],
       ),
     );
   }
@@ -35,14 +43,14 @@ class _WeatherPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(weatherScreenStateProvider);
+    final state = ref.watch(weatherScreenStateNotifierProvider);
 
     return Column(
       children: [
-        _WeatherImage(weatherType: state?.weatherType),
+        _WeatherImage(weatherType: state.weather?.weatherType),
         _TemperatureLabels(
-          max: state?.maxTemperature,
-          min: state?.minTemperature,
+          max: state.weather?.maxTemperature,
+          min: state.weather?.minTemperature,
         ),
       ],
     );
@@ -69,11 +77,15 @@ class _ControlPanel extends ConsumerWidget {
               ),
               _ControlButton(
                 'Reload',
-                () {
+                () async {
                   try {
-                    ref.read(weatherScreenStateProvider.notifier).fetch();
+                    await ref
+                        .read(weatherScreenStateNotifierProvider.notifier)
+                        .fetch();
                   } on Exception catch (e) {
-                    unawaited(_showAlertDialog(context, e));
+                    if (context.mounted) {
+                      unawaited(_showAlertDialog(context, e));
+                    }
                   }
                 },
               ),

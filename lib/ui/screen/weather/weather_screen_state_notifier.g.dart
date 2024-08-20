@@ -2,28 +2,28 @@
 
 // ignore_for_file: type=lint, duplicate_ignore
 
-part of 'weather_screen_state.dart';
+part of 'weather_screen_state_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$weatherScreenStateHash() =>
-    r'9d6f626bdb1ee037d8fa43a8d4c1d6f5c80af29c';
+String _$weatherScreenStateNotifierHash() =>
+    r'7f1a951cf4b0eed87354536a0872a04340e2efed';
 
-/// See also [WeatherScreenState].
-@ProviderFor(WeatherScreenState)
-final weatherScreenStateProvider =
-    AutoDisposeNotifierProvider<WeatherScreenState, Weather?>.internal(
-  WeatherScreenState.new,
-  name: r'weatherScreenStateProvider',
+/// See also [WeatherScreenStateNotifier].
+@ProviderFor(WeatherScreenStateNotifier)
+final weatherScreenStateNotifierProvider = AutoDisposeNotifierProvider<
+    WeatherScreenStateNotifier, WeatherScreenState>.internal(
+  WeatherScreenStateNotifier.new,
+  name: r'weatherScreenStateNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$weatherScreenStateHash,
+      : _$weatherScreenStateNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$WeatherScreenState = AutoDisposeNotifier<Weather?>;
+typedef _$WeatherScreenStateNotifier = AutoDisposeNotifier<WeatherScreenState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

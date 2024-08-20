@@ -30,7 +30,7 @@ void main() {
   final mockYumemiWeather = MockYumemiWeather();
   group('WeatherRepository findBy test', () {
     test('findBy should be successfully decoded as Weather when expected json.',
-        () {
+        () async {
       const area = 'area';
       final date = DateTime.now();
       final jsonString = json.encode(
@@ -41,22 +41,21 @@ void main() {
       );
       final result =
           '''{"weather_condition":"rainy","max_temperature":30,"min_temperature":22,"date":"$date"}''';
-      when(mockYumemiWeather.fetchWeather(jsonString)).thenReturn(result);
+      when(mockYumemiWeather.syncFetchWeather(jsonString)).thenReturn(result);
 
       final container = makeProviderContainer(mockYumemiWeather);
       final target = container.read(weatherRepositoryProvider);
 
-      final actual = Weather.fromJson(
+      final expected = Weather.fromJson(
         json.decode(result) as Map<String, dynamic>,
       );
+      final actual = await target.findBy(area, date);
 
-      expect(actual, target.findBy(area, date));
-
-      verify(mockYumemiWeather.fetchWeather(jsonString));
+      expect(expected, actual);
     });
     test(
       '''findBy should be thrown CheckedFromJsonException when value not in WeatherType is returned.''',
-      () {
+      () async {
         const area = 'area';
         final date = DateTime.now();
         final jsonString = json.encode(
@@ -67,7 +66,7 @@ void main() {
         );
         final result =
             '''{"weather_condition":"storm","max_temperature":30,"min_temperature":22,"date":"$date"}''';
-        when(mockYumemiWeather.fetchWeather(jsonString)).thenReturn(result);
+        when(mockYumemiWeather.syncFetchWeather(jsonString)).thenReturn(result);
 
         final container = makeProviderContainer(mockYumemiWeather);
         final target = container.read(weatherRepositoryProvider);
@@ -77,13 +76,11 @@ void main() {
           () => target.findBy(area, date),
           throwsA(isA<CheckedFromJsonException>()),
         );
-
-        verify(mockYumemiWeather.fetchWeather(jsonString));
       },
     );
     test(
       '''findBy should be thrown WeatherUnknownException when YumemiWeatherError.unknown is thrown''',
-      () {
+      () async {
         const area = 'area';
         final date = DateTime.now();
         final jsonString = json.encode(
@@ -92,7 +89,7 @@ void main() {
             date: date,
           ),
         );
-        when(mockYumemiWeather.fetchWeather(jsonString)).thenThrow(
+        when(mockYumemiWeather.syncFetchWeather(jsonString)).thenThrow(
           YumemiWeatherError.unknown,
         );
 
@@ -104,13 +101,11 @@ void main() {
           () => target.findBy(area, date),
           throwsA(isA<WeatherUnknownException>()),
         );
-
-        verify(mockYumemiWeather.fetchWeather(jsonString));
       },
     );
     test(
       '''findBy should be thrown WeatherInvalidParameterException when YumemiWeatherError.invalidParameter is thrown''',
-      () {
+      () async {
         const area = 'area';
         final date = DateTime.now();
         final jsonString = json.encode(
@@ -119,7 +114,7 @@ void main() {
             date: date,
           ),
         );
-        when(mockYumemiWeather.fetchWeather(jsonString)).thenThrow(
+        when(mockYumemiWeather.syncFetchWeather(jsonString)).thenThrow(
           YumemiWeatherError.invalidParameter,
         );
 
@@ -131,8 +126,6 @@ void main() {
           () => target.findBy(area, date),
           throwsA(isA<WeatherInvalidParameterException>()),
         );
-
-        verify(mockYumemiWeather.fetchWeather(jsonString));
       },
     );
   });

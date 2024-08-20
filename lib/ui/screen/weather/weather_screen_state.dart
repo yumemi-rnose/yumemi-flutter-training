@@ -1,18 +1,15 @@
-import 'package:flutter_training/application/providers.dart';
-import 'package:flutter_training/application/weather_service.dart';
 import 'package:flutter_training/domain/weather.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'weather_screen_state.g.dart';
+class WeatherScreenState {
+  WeatherScreenState({this.isLoading = false, this.weather});
 
-@riverpod
-class WeatherScreenState extends _$WeatherScreenState {
-  @override
-  Weather? build() => null;
+  final bool isLoading;
+  final Weather? weather;
 
-  WeatherService get _weatherService => ref.watch(weatherServiceProvider);
-
-  void fetch() {
-    state = _weatherService.fetchWeather();
+  WeatherScreenState copyWith({bool? isLoading, Weather? weather}) {
+    return WeatherScreenState(
+      isLoading: isLoading ?? this.isLoading,
+      weather: weather ?? this.weather,
+    );
   }
 }

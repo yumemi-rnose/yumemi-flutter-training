@@ -25,19 +25,20 @@ void main() {
 
   final mockRepository = MockWeatherRepositoryImpl();
 
-  test('fetchWeather should return Weather when normal case', () {
+  test('fetchWeather should return Weather when normal case', () async {
     final weather = Weather(
       weatherType: WeatherType.sunny,
       maxTemperature: 0,
       minTemperature: -10,
     );
     const area = 'tokyo';
-    when(mockRepository.findBy(area, any)).thenReturn(weather);
+    when(mockRepository.findBy(area, any)).thenAnswer((_) async => weather);
 
     final container = makeProviderContainer(mockRepository);
     final target = container.read(weatherServiceProvider);
 
-    expect(weather, target.fetchWeather());
+    final actual = await target.fetchWeather();
+    expect(weather, actual);
 
     verify(mockRepository.findBy(area, any)).called(1);
   });
